@@ -1,0 +1,12 @@
+{
+  "name": "es_command",
+  "version": "0.0.0",
+  "description": "command and message protocol for ethersheet",
+  "main": "es_command.js",
+  "scripts": {
+    "test": "make"
+  },
+  "repository": "",
+  "author": "tedsuo",
+  "license": "BSD"
+}
