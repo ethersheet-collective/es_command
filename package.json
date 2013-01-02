@@ -6,6 +6,9 @@
   "scripts": {
     "test": "make"
   },
+  "dependencies":{
+    "amdefine": ">=0.0.2"
+  },
   "repository": "",
   "author": "tedsuo",
   "license": "BSD"

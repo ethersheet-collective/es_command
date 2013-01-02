@@ -1,15 +1,35 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module) }
 define(function (require) {
-  return {
-    parse: function(serialized_msg){
-      return JSON.parse(serialized_msg);
+  var Command = function(data){
+    this.msg = Command.parse(data);
+  };
+
+  Command.parse = function(serialized_msg){
+    return JSON.parse(serialized_msg);
+  };
+
+  Command.serialize = function(msg){
+    return JSON.stringify(msg);
+  };
+ 
+  Command.prototype = {
+    execute: function(obj,cb){
+      var params = this.getParams();
+      if(typeof cb === 'function') params.push(cb);
+      obj[esCommand.getAction()].apply(obj,params);
     },
-    serialize: function(msg){
-      return JSON.stringify(msg);
+    validate: function(){
     },
-    execute: function(obj,msg,cb){
+    getDataType: function(){
+      return this.msg.type;
     },
-    validate: function(msg){
+    getAction: function(){
+      return this.msg.action;
+    },
+    getParams: function(){
+      return this.msg.params;
     }
-  }
+  };
+
+  return Command;
 });
