@@ -16,18 +16,24 @@ define(function (require) {
     execute: function(obj,cb){
       var params = this.getParams();
       if(typeof cb === 'function') params.push(cb);
-      obj[esCommand.getAction()].apply(obj,params);
+      obj[this.getAction()].apply(obj,params);
     },
     validate: function(){
     },
     getDataType: function(){
       return this.msg.type;
     },
+    getDataId: function(){
+      return this.msg.id;
+    },
     getAction: function(){
       return this.msg.action;
     },
     getParams: function(){
       return this.msg.params;
+    },
+    getMessage: function(){
+      return this.msg;
     }
   };
 
