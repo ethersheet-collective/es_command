@@ -1,7 +1,22 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module) }
-define(function (require) {
-  var Command = function(data){
-    this.msg = Command.parse(data);
+define(function (require,exports,module) {
+  var sanitize;
+  var validator = require('validator');
+  console.log('validator',validator);
+  if(typeof validator === 'function'){
+    sanitize = validator;
+  } else {
+    sanitize = validator.sanitize;
+  }
+  console.log('sanitize',sanitize);
+
+  var Command = module.exports = function(data_string){
+    this.sanitized_data = Command.sanitize(data_string);
+    this.msg = Command.parse(this.sanitized_data);
+  };
+
+  Command.sanitize = function(data_string){
+    return sanitize(data_string).xss(); 
   };
 
   Command.parse = function(serialized_msg){
@@ -34,8 +49,9 @@ define(function (require) {
     },
     getMessage: function(){
       return this.msg;
+    },
+    getSerializedMessage: function(){
+      return this.sanitized_data;
     }
   };
-
-  return Command;
 });

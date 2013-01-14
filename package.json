@@ -7,7 +7,8 @@
     "test": "make"
   },
   "dependencies":{
-    "amdefine": ">=0.0.2"
+    "amdefine": ">=0.0.2",
+    "validator": "*"
   },
   "repository": "",
   "author": "tedsuo",
