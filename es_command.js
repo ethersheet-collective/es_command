@@ -9,10 +9,14 @@ if(typeof validator === 'function'){
   sanitize = validator.sanitize;
 }
 
-var Command = module.exports = function(data_string){
-  this.sanitized_data = Command.sanitize(data_string);
-  this.msg = Command.parse(this.sanitized_data);
-};
+var Command = module.exports = function(data){
+  if(data.substring){
+    this.initWithString(data);
+  }
+  else{
+    this.initWithHash(data);
+  }
+}
 
 Command.sanitize = function(data_string){
   return sanitize(data_string).xss(); 
@@ -27,6 +31,14 @@ Command.serialize = function(msg){
 };
 
 Command.prototype = {
+  initWithString: function(data_string){
+    this.sanitized_data = Command.sanitize(data_string);
+    this.msg = Command.parse(this.sanitized_data);
+  },
+  initWithHash: function(msg){
+    this.sanitized_data = null;
+    this.msg = msg;
+  },
   execute: function(obj,cb){
     var params = this.getParams();
     if(typeof cb === 'function') params.push(cb);
@@ -50,6 +62,9 @@ Command.prototype = {
     return this.msg;
   },
   getSerializedMessage: function(){
+    if(!this.sanitized_data && this.msg){
+     this.sanitized_data = Command.serialize(this.msg);
+    }
     return this.sanitized_data;
   }
 };
