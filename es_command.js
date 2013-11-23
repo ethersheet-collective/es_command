@@ -1,14 +1,6 @@
 if (typeof define !== 'function') { var define = require('amdefine')(module) }
 define(function (require,exports,module) {
 
-var validator = require('validator');
-var sanitize;
-if(typeof validator === 'function'){
-  sanitize = validator;
-} else {
-  sanitize = validator.sanitize;
-}
-
 var Command = module.exports = function(data){
   if(data.substring){
     this.initWithString(data);
@@ -19,7 +11,11 @@ var Command = module.exports = function(data){
 }
 
 Command.sanitize = function(data_string){
-  return sanitize(data_string).xss(); 
+  var safe_data_string = data_string.
+    replace(/>/g, '&gt;').
+    replace(/</g,'&lt;');
+  return safe_data_string;
+
 };
 
 Command.parse = function(serialized_msg){
