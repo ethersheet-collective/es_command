@@ -1,3 +1,4 @@
+// If this file is modified copy it to es_client/vendor/
 if (typeof define !== 'function') { var define = require('amdefine')(module) }
 define(function (require,exports,module) {
 
